@@ -1,9 +1,13 @@
+# Import necessary libraries for GUI and random choice
+# tkinter is used for creating the graphical user interface
+# random is used to generate the computer's choice
+
 import tkinter as tk
 from tkinter import messagebox
 import random
 import itertools
 
-# Initialize score counters
+# Initialize score counters for the user and computer
 user_score = 0
 computer_score = 0
 
@@ -15,7 +19,8 @@ def update_score(result):
         computer_score += 1
     score_label.config(text=f"Score - You: {user_score} | Computer: {computer_score}")
 
-# Refactor game logic into a separate function
+# Determine the result of the game based on user and computer choices
+# Returns a string indicating whether it's a tie, the user wins, or the user loses
 def get_game_result(user_choice, computer_choice):
     if user_choice == computer_choice:
         return "It's a tie!"
@@ -26,7 +31,8 @@ def get_game_result(user_choice, computer_choice):
     else:
         return "You lose!"
 
-# New function to handle game logic and return results and scores
+# Handle the game logic and return results and updated scores
+# This function is independent of the GUI and can be tested separately
 def process_game(user_choice):
     choices = ["rock", "paper", "scissors"]
     computer_choice = random.choice(choices)
@@ -40,7 +46,8 @@ def process_game(user_choice):
 
     return computer_choice, result, user_score, computer_score
 
-# Update play_game to use the new function
+# Update the GUI to display the result and updated scores
+# This function interacts with the GUI elements like labels
 def play_game(user_choice):
     computer_choice, result, user_score, computer_score = process_game(user_choice)
     result_label.config(text=f"Computer chose: {computer_choice}\n{result}")
@@ -49,6 +56,8 @@ def play_game(user_choice):
 def quit_game():
     root.destroy()
 
+# Make the text of a button blink by cycling through colors
+# This adds a visual effect to the buttons
 def blink_button_text(button, colors):
     color_cycle = itertools.cycle(colors)
 
@@ -58,6 +67,8 @@ def blink_button_text(button, colors):
 
     update_color()
 
+# Center the main window on the screen
+# This ensures the window appears in the middle of the screen when launched
 def center_window(window):
     window.update_idletasks()
     screen_width = window.winfo_screenwidth()
@@ -67,14 +78,15 @@ def center_window(window):
     y = screen_height // 2 - size[1] // 2
     window.geometry(f"{size[0]}x{size[1]}+{x}+{y}")
 
-# Create the main window
+# Create the main window and set its title
 root = tk.Tk()
 root.title("Rock, Paper, Scissors")
 
-# Update the main window background color
-root.configure(bg="lightblue")
+# Update the main window background color to light purple
+root.configure(bg="lightpurple")
 
-# Create widgets
+# Create and configure widgets for the GUI
+# Includes labels, buttons, and frames for layout
 welcome_label = tk.Label(root, text="Welcome to Rock, Paper, Scissors!", font=("Arial", 16))
 welcome_label.pack(pady=10)
 
@@ -96,30 +108,19 @@ result_label.pack(pady=10)
 quit_button = tk.Button(root, text="Quit", command=quit_game)
 quit_button.pack(pady=10)
 
-# Add a score label
-score_label = tk.Label(root, text="Score - You: 0 | Computer: 0", font=("Arial", 14), bg="lightblue", fg="darkred")
+# Add a score label to display the current scores
+score_label = tk.Label(root, text="Score - You: 0 | Computer: 0", font=("Arial", 14), bg="lightpurple", fg="darkred")
 score_label.pack(pady=10)
 
-# Update widget styles
-welcome_label.config(bg="lightblue", fg="darkblue")
-result_label.config(bg="lightblue", fg="darkgreen")
-
-# Update button styles and add blinking text
-button_colors = ["red", "blue", "green"]
-rock_button.config(bg="white", activebackground="lightgray")
-paper_button.config(bg="white", activebackground="lightgray")
-scissors_button.config(bg="white", activebackground="lightgray")
-quit_button.config(bg="white", activebackground="lightgray")
-
-blink_button_text(rock_button, button_colors)
-blink_button_text(paper_button, button_colors)
-blink_button_text(scissors_button, button_colors)
-blink_button_text(quit_button, button_colors)
+# Update widget styles to match the new background color
+welcome_label.config(bg="lightpurple")
+result_label.config(bg="lightpurple")
+score_label.config(bg="lightpurple")
 
 # Adjust the window size to fit all content
 root.geometry("500x400")
 
-# Center the main window
+# Center the main window on the screen
 center_window(root)
 
 # Run the application
